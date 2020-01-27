@@ -6,7 +6,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::prefix('/team')->name('team.')->namespace('Team')->group(function () {
+Route::prefix('/team')->name('teams.')->namespace('Team')->group(function () {
     Route::namespace('Auth')->group(function () {
         // Register
         Route::get('/register', 'RegisterController@showRegistrationForm')->name('register');

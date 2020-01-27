@@ -4,7 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\TestResponse;
-use Tests\Support\UseAuth;
+use Tests\Support\Traits\UseAuth;
 
 abstract class TestCase extends BaseTestCase
 {

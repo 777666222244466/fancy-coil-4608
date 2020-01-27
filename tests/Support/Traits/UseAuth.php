@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Support;
+namespace Tests\Support\Traits;
 
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
