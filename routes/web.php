@@ -29,8 +29,9 @@ Route::prefix('/team')->name('teams.')->namespace('Team')->group(function () {
 });
 
 // Candidates
-Route::group(['prefix' => '/candidates', 'name' => 'candidates.', 'namespace' => 'Team', 'middleware' => ['auth', 'team']], function () {
-    Route::namespace('Candidate')->group(function () {
+Route::group(['prefix' => '/candidates', 'namespace' => 'Team', 'middleware' => ['auth', 'team']], function () {
+    Route::namespace('Candidate')->name('candidates.')->group(function () {
+        Route::get('/', 'CandidateController@index')->name('index');
         Route::post('/{candidate}', 'CandidateController@store');
     });
 });

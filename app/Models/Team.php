@@ -26,4 +26,19 @@ class Team extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function candidates()
+    {
+        return $this->belongsToMany(
+            'App\Models\User',
+            'team_candidates',
+            'team_id',
+            'candidate_id'
+        )->withTimestamps();
+    }
+
+    public function sendCandidateRequest(User $candidate, array $attributes = []): void
+    {
+        $this->candidates()->attach($candidate, $attributes);
+    }
 }
