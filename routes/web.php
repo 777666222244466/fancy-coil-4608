@@ -6,6 +6,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// Team auth
 Route::prefix('/team')->name('teams.')->namespace('Team')->group(function () {
     Route::namespace('Auth')->group(function () {
         // Register
@@ -24,6 +25,13 @@ Route::prefix('/team')->name('teams.')->namespace('Team')->group(function () {
         // //Reset Password
         // Route::get('/password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
         // Route::post('/password/reset', 'ResetPasswordController@reset')->name('password.update');
+    });
+});
+
+// Candidates
+Route::group(['prefix' => '/candidates', 'name' => 'candidates.', 'namespace' => 'Team', 'middleware' => ['auth', 'team']], function () {
+    Route::namespace('Candidate')->group(function () {
+        Route::post('/{candidate}', 'CandidateController@store');
     });
 });
 
