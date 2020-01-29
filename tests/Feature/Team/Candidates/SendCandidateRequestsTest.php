@@ -36,6 +36,7 @@ class SendCandidateRequestsTest extends TestCase
         $this->assertDatabaseHas('team_candidates', [
             'candidate_id' => $candidate->id,
             'team_id' => $team->id,
+            'accepted_at' => null,
             'body' => $body,
         ]);
     }

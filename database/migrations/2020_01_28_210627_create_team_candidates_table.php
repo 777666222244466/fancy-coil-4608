@@ -18,6 +18,7 @@ class CreateTeamCandidatesTable extends Migration
             $table->unsignedBigInteger('candidate_id');
             $table->unsignedBigInteger('team_id');
             $table->text('body')->nullable();
+            $table->timestamp('accepted_at')->nullable();
             $table->timestamps();
 
             $table->unique(['candidate_id', 'team_id']);
