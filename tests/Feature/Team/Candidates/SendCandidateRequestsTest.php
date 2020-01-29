@@ -12,17 +12,11 @@ class SendCandidateRequestsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function guests_cannot_send_candidate_requests()
+    public function guests_and_users_cannot_send_candidate_requests()
     {
         $candidate = factory(User::class)->create();
 
         $this->post("/candidates/{$candidate->id}")->assertRedirect('login');
-    }
-
-    /** @test */
-    public function users_cannot_send_candidate_requests()
-    {
-        $candidate = factory(User::class)->create();
 
         $this->signIn()
             ->post("/candidates/{$candidate->id}")
@@ -47,7 +41,7 @@ class SendCandidateRequestsTest extends TestCase
     }
 
     /** @test */
-    public function teams_can_not_send_multiple_candidate_requests_to_one_candidate()
+    public function teams_cannot_send_multiple_candidate_requests_to_one_candidate()
     {
         $team = factory(Team::class)->create();
         $team->sendCandidateRequest($candidate = factory(User::class)->create());

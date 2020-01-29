@@ -24,18 +24,14 @@ class TeamTest extends TestCase
     public function it_can_send_candidate_requests()
     {
         $team = factory(Team::class)->create();
-        $team->sendCandidateRequest(factory(User::class)->create());
+        $team->sendCandidateRequest($candidate = factory(User::class)->create(), ['body' => 'text']);
 
         $this->assertCount(1, $team->candidates);
         $this->assertInstanceOf('App\Models\User', $team->candidates[0]);
-    }
-
-    /** @test */
-    public function it_can_send_candidate_requests_with_attributes()
-    {
-        $team = factory(Team::class)->create();
-        $team->sendCandidateRequest(factory(User::class)->create(), ['body' => 'text']);
-
-        $this->assertDatabaseHas('team_candidates', ['body' => 'text']);
+        $this->assertDatabaseHas('team_candidates', [
+            'candidate_id' => $candidate->id,
+            'team_id' => $team->id,
+            'body' => 'text',
+        ]);
     }
 }
