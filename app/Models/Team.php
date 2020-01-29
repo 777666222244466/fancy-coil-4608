@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\CandidateRequestSent;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -40,5 +41,7 @@ class Team extends Authenticatable
     public function sendCandidateRequest(User $candidate, array $attributes = []): void
     {
         $this->candidates()->attach($candidate, $attributes);
+
+        $candidate->notify(new CandidateRequestSent($this));
     }
 }
