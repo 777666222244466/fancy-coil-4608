@@ -20,7 +20,7 @@ class SendCandidateRequestsTest extends TestCase
 
         $this->signIn()
             ->post("/app/team/candidates/{$candidate->id}")
-            ->assertRedirect('home');
+            ->assertRedirect('/app');
     }
 
     /** @test */

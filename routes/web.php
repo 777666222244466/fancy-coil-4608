@@ -5,9 +5,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 // Team auth
-Route::prefix('/team')->name('teams.')->namespace('Team')->group(function () {
+Route::prefix('/team')->name('team.')->namespace('Team')->group(function () {
     Route::namespace('Auth')->group(function () {
         // Register
         Route::get('/register', 'RegisterController@showRegistrationForm')->name('register');
@@ -28,16 +27,18 @@ Route::prefix('/team')->name('teams.')->namespace('Team')->group(function () {
     });
 });
 
-// Team CandidateRequests
-Route::group(['prefix' => '/app/team/candidates', 'namespace' => 'Team', 'middleware' => ['auth', 'team']], function () {
-    Route::get('/', 'CandidateRequestsController@index')->name('team.candidates.index');
-    Route::post('/{candidate}', 'CandidateRequestsController@store');
-});
+Route::prefix('/app')->group(function () {
+    Route::get('/', 'HomeController@index')->name('app.index');
 
-// Candidate CandidateRequests
-Route::group(['prefix' => '/app/candidate/requests', 'namespace' => 'User', 'middleware' => 'auth'], function () {
-    Route::get('/', 'CandidateRequestsController@index')->name('candidate.requests.index');
-    Route::post('/{team}/{notificationId}/accept', 'CandidateRequestsController@accept');
-});
+    // Team CandidateRequests
+    Route::group(['prefix' => '/team/candidates', 'namespace' => 'Team', 'middleware' => ['auth', 'team']], function () {
+        Route::get('/', 'CandidateRequestsController@index')->name('team.candidates.index');
+        Route::post('/{candidate}', 'CandidateRequestsController@store');
+    });
 
-Route::get('/app', 'HomeController@index')->name('app');
+    // Candidate CandidateRequests
+    Route::group(['prefix' => '/candidate/requests', 'namespace' => 'User', 'middleware' => 'auth'], function () {
+        Route::get('/', 'CandidateRequestsController@index')->name('candidate.requests.index');
+        Route::post('/{team}/{notificationId}/accept', 'CandidateRequestsController@accept');
+    });
+});

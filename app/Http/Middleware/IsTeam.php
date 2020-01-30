@@ -17,7 +17,7 @@ class IsTeam
     {
         if (class_basename(auth()->user()) !== 'Team') {
             // come back to the redirect later.
-            return redirect('home');
+            return redirect()->route('app.index');
         }
 
         return $next($request);
