@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Team\Candidate;
+namespace App\Http\Controllers\Team;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
-class CandidateController extends Controller
+class CandidateRequestsController extends Controller
 {
     public function index()
     {
         $candidates = User::latest()->limit(10)->get();
 
-        return view('candidates.index', compact('candidates'));
+        return view('team.candidates.index', compact('candidates'));
     }
 
     public function store(User $candidate)
@@ -32,6 +32,6 @@ class CandidateController extends Controller
             ])
         );
 
-        return redirect()->route('candidates.index');
+        return redirect()->route('team.candidates.index');
     }
 }

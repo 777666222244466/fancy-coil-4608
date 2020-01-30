@@ -40,7 +40,7 @@ class ManageCandidateRequestsTest extends TestCase
         $teamB->sendCandidateRequest($candidate);
 
         $response = $this->signIn($candidate)
-                        ->get('/candidate/requests')
+                        ->get('/app/candidate/requests')
                         ->assertStatus(200);
 
         $this->assertCount(2, $response->data('teamRequests'));
@@ -56,8 +56,8 @@ class ManageCandidateRequestsTest extends TestCase
 
         // Accept the requests...
         $this->signIn($candidate)
-            ->post("/candidate/requests/{$team->id}/{$candidate->notifications[0]->id}/accept")
-            ->assertRedirect('/candidate/requests')
+            ->post("/app/candidate/requests/{$team->id}/{$candidate->notifications[0]->id}/accept")
+            ->assertRedirect('/app/candidate/requests')
             ->assertSessionHas(['status' => 'Candidate request accepted.']);
 
         // Make sure the accepted_at has been updated...

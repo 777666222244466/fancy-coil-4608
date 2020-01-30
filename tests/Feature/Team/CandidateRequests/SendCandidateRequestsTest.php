@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Team\Candidates;
+namespace Tests\Feature\Team\CandidateRequests;
 
 use App\Models\Team;
 use App\Models\User;
@@ -16,10 +16,10 @@ class SendCandidateRequestsTest extends TestCase
     {
         $candidate = factory(User::class)->create();
 
-        $this->post("/candidates/{$candidate->id}")->assertRedirect('login');
+        $this->post("/app/team/candidates/{$candidate->id}")->assertRedirect('login');
 
         $this->signIn()
-            ->post("/candidates/{$candidate->id}")
+            ->post("/app/team/candidates/{$candidate->id}")
             ->assertRedirect('home');
     }
 
@@ -29,8 +29,8 @@ class SendCandidateRequestsTest extends TestCase
         $candidate = factory(User::class)->create();
 
         $this->signIn($team = factory(Team::class)->create())
-            ->post("/candidates/{$candidate->id}", ['body' => $body = 'Text'])
-            ->assertRedirect(route('candidates.index'));
+            ->post("/app/team/candidates/{$candidate->id}", ['body' => $body = 'Text'])
+            ->assertRedirect(route('team.candidates.index'));
 
         $this->assertCount(1, $team->fresh()->candidates);
         $this->assertDatabaseHas('team_candidates', [
@@ -50,7 +50,7 @@ class SendCandidateRequestsTest extends TestCase
         $this->assertCount(1, $team->candidates);
 
         $this->signIn($team)
-            ->post("/candidates/{$candidate->id}")
+            ->post("/app/team/candidates/{$candidate->id}")
             ->assertSessionHasErrors(['candidate_dialog_exists' => 'You have already sent this candidate a dialog request.']);
 
         $this->assertCount(1, $team->fresh()->candidates);
@@ -62,7 +62,7 @@ class SendCandidateRequestsTest extends TestCase
         $candidate = factory(User::class)->create();
 
         $this->signIn($team = factory(Team::class)->create())
-            ->post("/candidates/{$candidate->id}", [
+            ->post("/app/team/candidates/{$candidate->id}", [
                 'body' => 1234,
             ])->assertSessionHasErrors('body');
 

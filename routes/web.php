@@ -28,18 +28,16 @@ Route::prefix('/team')->name('teams.')->namespace('Team')->group(function () {
     });
 });
 
-// Team > candidates
-Route::group(['prefix' => '/candidates', 'namespace' => 'Team', 'middleware' => ['auth', 'team']], function () {
-    Route::namespace('Candidate')->name('candidates.')->group(function () {
-        Route::get('/', 'CandidateController@index')->name('index');
-        Route::post('/{candidate}', 'CandidateController@store');
-    });
+// Team CandidateRequests
+Route::group(['prefix' => '/app/team/candidates', 'namespace' => 'Team', 'middleware' => ['auth', 'team']], function () {
+    Route::get('/', 'CandidateRequestsController@index')->name('team.candidates.index');
+    Route::post('/{candidate}', 'CandidateRequestsController@store');
 });
 
-// Candidate
-Route::group(['prefix' => '/candidate/requests', 'namespace' => 'User', 'middleware' => 'auth'], function () {
+// Candidate CandidateRequests
+Route::group(['prefix' => '/app/candidate/requests', 'namespace' => 'User', 'middleware' => 'auth'], function () {
     Route::get('/', 'CandidateRequestsController@index')->name('candidate.requests.index');
-    Route::post('/{team}/{notificationId}/accept', 'CandidateRequestsController@accept')->name('candidate.requests.accept');
+    Route::post('/{team}/{notificationId}/accept', 'CandidateRequestsController@accept');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/app', 'HomeController@index')->name('app');
